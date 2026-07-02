@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
         libsnmp-dev \
         emacs-nox \
         ack \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-xpm --with-avif \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-xpm \
     && docker-php-ext-install -j$(nproc) \
         gd \
         curl \
@@ -56,12 +56,13 @@ RUN apt-get update && apt-get install -y \
         pspell \
         sodium \
         snmp \
-    && pecl install redis apcu imagick && docker-php-ext-enable redis apcu imagick \
+    && pecl install redis \
+    && pecl install apcu-5.1.24 \
+    && pecl install imagick-3.7.0 \
+    && docker-php-ext-enable redis apcu imagick \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN cd /usr/local/etc/php/conf.d/ && \
     echo 'memory_limit = 2G' > docker-php-memlimit.ini && \
     echo 'max_execution_time = 300' >> docker-php-memlimit.ini && \
     echo 'max_input_vars = 5000' >> docker-php-memlimit.ini
-
-    
