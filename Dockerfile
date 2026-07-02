@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
         libzip-dev libicu-dev libxml2-dev libcurl4-openssl-dev \
         libonig-dev libwebp-dev libxpm-dev libmagickwand-dev \
         libpq-dev libbz2-dev libldap2-dev libtidy-dev libgmp-dev \
-        libxslt1-dev libpspell-dev libsodium-dev libsnmp-dev \
+        libxslt1-dev libsodium-dev libsnmp-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # PHP extensions
@@ -14,7 +14,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-x
     && docker-php-ext-install -j$(nproc) \
         gd curl mysqli pdo_mysql pdo_pgsql pgsql mbstring xml zip \
         bcmath exif intl opcache gmp soap sockets bz2 calendar pcntl \
-        shmop sysvmsg sysvsem sysvshm gettext ldap tidy xsl pspell sodium snmp
+        shmop sysvmsg sysvsem sysvshm gettext ldap tidy xsl sodium snmp
 
 # PECL extensions (separate steps to isolate failures)
 RUN pecl install redis && docker-php-ext-enable redis
